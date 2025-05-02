@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香港疫情实时监控大屏</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}?v={{ timestamp }}">
+    <!-- 禁用缓存 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <!-- 引入 ECharts -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.3.3/echarts.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- 顶部标题栏 -->
+        <div class="header">
+            <h1>香港疫情实时监控大屏</h1>
+            <div class="update-time">最后更新时间: {{ today_data.last_update }}</div>
+        </div>
+        
+        <!-- 顶部指标卡片 -->
+        <div class="kpi-cards">
+            <div class="kpi-card">
+                <div class="kpi-title">今日新增确诊</div>
+                <div class="kpi-value" id="new-cases">{{ today_data.new_cases }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">累计确诊总数</div>
+                <div class="kpi-value" id="total-cases">{{ today_data.total_cases }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">当前活跃病例</div>
+                <div class="kpi-value" id="active-cases">{{ today_data.active_cases }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">累计康复人数</div>
+                <div class="kpi-value" id="recovered">{{ today_data.recovered }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">累计死亡人数</div>
+                <div class="kpi-value" id="deaths">{{ today_data.deaths }}</div>
+            </div>
+        </div>
+        
+        <!-- 中心内容区 -->
+        <div class="main-content">
+            <!-- 左侧地图 -->
+            <div class="map-container">
+                <div class="chart-title">香港各区疫情分布</div>
+                <div class="chart" id="hk-map"></div>
+            </div>
+            
+            <!-- 右侧图表组 -->
+            <div class="charts-container">
+                <div class="chart-wrapper">
+                    <div class="chart-title">每日新增与累计确诊数据</div>
+                    <div class="chart" id="daily-total-chart"></div>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart-title">香港各区域确诊病例对比</div>
+                    <div class="chart" id="area-comparison-chart"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部趋势区 -->
+        <div class="trends-container">
+            <div class="chart-wrapper">
+                <div class="chart-title">确诊病例增长率变化</div>
+                <div class="chart" id="growth-rate-chart"></div>
+            </div>
+            <div class="chart-wrapper">
+                <div class="chart-title">活跃病例趋势</div>
+                <div class="chart" id="active-cases-chart"></div>
+            </div>
+        </div>
+        
+        <!-- 风险区域 - 调整为并排布局 -->
+        <div class="risk-container">
+            <div class="chart-wrapper">
+                <div class="chart-title">风险等级分布</div>
+                <div class="chart" id="risk-level-pie"></div>
+            </div>
+            <div class="risk-warning" id="warning-list">
+                <div class="chart-title">高风险区域提示</div>
+                <div id="high-risk-areas"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入自定义JS -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}?v={{ timestamp }}"></script>
+</body>
+</html> 
